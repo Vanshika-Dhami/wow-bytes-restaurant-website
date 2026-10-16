@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Wow Bytes</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+              url('backg.jpeg');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: #222;
+  padding: 35px;
+  width: 380px;
+  border-radius: 15px;
+  color: #fff;
+}
+
+.container h2 {
+  text-align: center;
+  color: #ff9800;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+}
+
+.toggle-password {
+  text-align: right;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #ffc107;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: #ff9800;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.btn:hover {
+  background: #ffc107;
+  transform: scale(1.03);
+}
+
+.or {
+  text-align: center;
+  margin: 15px 0;
+  opacity: 0.7;
+}
+
+.google-btn {
+  background: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.switch {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.switch span {
+  color: #ff9800;
+  cursor: pointer;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2 id="formTitle">Login</h2>
+
+  <div class="input-group">
+    <input type="text" id="emailPhone" placeholder="Email or Mobile Number">
+  </div>
+
+  <div class="input-group">
+    <input type="password" id="password" placeholder="Password">
+  </div>
+
+  <div class="toggle-password" onclick="togglePassword()">Show Password</div>
+
+  <!-- Button calls the submitForm function -->
+  <button class="btn" onclick="submitForm()">Login</button>
+
+  <div class="or">OR</div>
+
+  <button class="btn google-btn">
+    <img src="https://img.icons8.com/color/24/google-logo.png"/>
+    Sign in with Google
+  </button>
+
+  <div class="switch">
+    Don't have an account?
+    <span onclick="toggleForm()">Sign Up</span>
+  </div>
+</div>
+
+<script>
+let isLogin = true;
+
+// Toggle between Login and Sign Up
+function toggleForm() {
+  isLogin = !isLogin;
+  document.getElementById("formTitle").innerText = isLogin ? "Login" : "Sign Up";
+  document.querySelector(".btn").innerText = isLogin ? "Login" : "Sign Up";
+  document.querySelector(".switch").innerHTML = isLogin
+    ? `Don't have an account? <span onclick="toggleForm()">Sign Up</span>`
+    : `Already have an account? <span onclick="toggleForm()">Login</span>`;
+}
+
+// Show or hide password
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+/* --------------------------
+   NEW submitForm() with backend
+---------------------------- */
+async function submitForm() {
+  const emailPhone = document.getElementById("emailPhone").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!emailPhone || !password) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  // URL of your backend
+  const url = isLogin ? "http://localhost:3000/login" : "http://localhost:3000/signup";
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emailPhone, password })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    alert(data.message);
+
+    if (isLogin) {
+      // Redirect to home page after login
+      window.location.href = "index.html";
+    } else {
+      // Switch to login form after successful signup
+      toggleForm();
+    }
+  } catch (err) {
+    alert(err.message);
+  }
+}
+</script>
+
+</body>
+</html>

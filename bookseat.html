@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Seats | Wow Bytes</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff9800;
+      margin-top: 40px;
+      font-size: 3rem;
+    }
+
+    .booking-form {
+      max-width: 500px;
+      margin: 50px auto;
+      background: #222;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .booking-form label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #ff9800;
+    }
+
+    .booking-form input,
+    .booking-form select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .btn-book {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 40px;
+      background: #ff9800;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .btn-book:hover {
+      background: #ffc107;
+      transform: scale(1.05);
+    }
+
+    #confirmation {
+      text-align: center;
+      margin-top: 20px;
+      color: #00ff00;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Book Your Seats 🍽️</h1>
+
+<div class="booking-form">
+
+  <label for="name">Name</label>
+  <input type="text" id="name" placeholder="Your Name" required>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" placeholder="Your Email" required>
+
+  <label for="date">Date</label>
+  <input type="date" id="date" required>
+
+  <label for="time">Time</label>
+  <input type="time" id="time" required>
+
+  <!-- Floor Number -->
+  <label for="floor">Floor Number</label>
+  <select id="floor" required>
+    <option value="">Select Floor</option>
+    <option value="Ground Floor">Ground Floor</option>
+    <option value="1st Floor">1st Floor</option>
+    <option value="2nd Floor">2nd Floor</option>
+    <option value="Rooftop">Rooftop </option>
+  </select>
+
+  <label for="seats">Number of Seats</label>
+  <select id="seats" required>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select>
+
+  <button class="btn-book" onclick="bookSeats()">Book Now</button>
+
+  <div id="confirmation"></div>
+</div>
+
+<script>
+  function bookSeats() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const floor = document.getElementById('floor').value;
+    const seats = document.getElementById('seats').value;
+
+    if (!name || !email || !date || !time || !floor || !seats) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const confirmation = document.getElementById('confirmation');
+    confirmation.textContent =
+      `Thank you ${name}! Your ${seats} seat(s) are booked on ${floor} for ${date} at ${time}. 
+       A confirmation email has been sent to ${email}.`;
+
+    // Clear form
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('date').value = '';
+    document.getElementById('time').value = '';
+    document.getElementById('floor').value = '';
+    document.getElementById('seats').value = '1';
+  }
+</script>
+
+</body>
+</html>
